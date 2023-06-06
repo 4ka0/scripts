@@ -1,7 +1,9 @@
 """
-Script to back up the Honyaku Archive database. Copies the DB file from the
-directory from which Honyaku Archive is run to a back up directory, and logs to
-a backup log when a backup is made. Any errors are output as a file to the Desktop.
+Script to back up an SQLite database used in a Django app.
+Copies the database file from one directory to another directory, extracts
+the content of the database file (in this case glossaries and translations)
+in a human-readable form (text files), and adds to a backup log whenever a
+backup is made. Any errors are output as a text file to a desired location.
 """
 
 import os
