@@ -13,13 +13,14 @@ import itertools
 from shutil import copyfile
 from datetime import datetime
 
-
+# File paths (complete as appropriate)
 SOURCE_DB = "<path>/db.sqlite3"
 BACKUP_DB = "<path>/db.sqlite3"
 BACKUP_LOG = "<path>/backup-log.txt"
 GLOSSARY_OUTPUT_PATH = "<path>/extracted_glossary_files"
 TRANSLATION_OUTPUT_PATH = "<path>/extracted_translation_files"
 ERROR_LOG = "<path>/backup-error.txt"
+
 ERRORS = []
 NOW = str(datetime.now())
 
