@@ -26,6 +26,9 @@ NOW = str(datetime.now())
 
 
 def copy_db():
+    """
+    Copies the actual database file from one location to another.
+    """
     try:
         copyfile(SOURCE_DB, BACKUP_DB)
     except Exception as e:
@@ -33,6 +36,10 @@ def copy_db():
 
 
 def update_log():
+    """
+    Updates the log file with the date/time of this backup, and the 
+    size of the database file.
+    """
     try:
         size = str(os.path.getsize(SOURCE_DB))
         with open(BACKUP_LOG, "a+") as f:
@@ -43,6 +50,11 @@ def update_log():
 
 
 def connect_to_db():
+    """
+    Connects to the SQLite database. 
+    Returns a cursor object (cur, used to navigate the contents of the 
+    database) and a connection object (con).
+    """
     try:
         con = sqlite3.connect(SOURCE_DB)
     except Exception as e:
@@ -52,6 +64,10 @@ def connect_to_db():
 
 
 def extract_glossaries_from_db(cursor):
+    """
+    Extracts glossaries from the database and writes each glossary 
+    as a separate text file.
+    """
     if not os.path.exists(GLOSSARY_OUTPUT_PATH):
         os.makedirs(GLOSSARY_OUTPUT_PATH)
     glossary_names_obj = cursor.execute("SELECT id, title FROM archive_glossary ORDER BY id;")
@@ -74,6 +90,10 @@ def extract_glossaries_from_db(cursor):
 
 
 def extract_translations_from_db(cursor):
+    """
+    Extracts translations from the database and writes each glossary 
+    as a separate text file.
+    """
     translation_names_obj = cursor.execute(
         "SELECT id, job_number FROM archive_translation ORDER BY id;"
     )
@@ -98,6 +118,9 @@ def extract_translations_from_db(cursor):
 
 
 def output_errors():
+    """
+    Outputs errors as a text file.
+    """
     with open(ERROR_LOG, "a+") as f:
         f.write("-----\n")
         f.write(NOW + "\n")
