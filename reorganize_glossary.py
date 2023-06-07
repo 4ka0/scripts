@@ -5,6 +5,13 @@ Script to
 - sort entries according to the source text
 - combine similar entries, and
 - write to a new file.
+
+Example input:
+試験  exam
+試験  examination
+
+Example output:
+試験  exam, examination
 """
 
 import os
@@ -12,29 +19,31 @@ import sys
 
 
 def read_glossary(input_file_path):
-    """ Reads in content from glossary file and removes trailing newline chars
-        from each line. """
-
+    """ 
+    Reads in content from glossary file and removes trailing newline chars
+    from each line.
+    """
+    
     with open(input_file_path, 'r', encoding="utf-8") as reader:
         raw_lines = reader.readlines()
 
-    # Remove newline chars
     stripped_lines = [line.rstrip() for line in raw_lines]
 
     return stripped_lines
 
 
 def extract_lines(stripped_lines):
-    """ Extract lines including two separated by a tab character. Other entries
-        are labelled as discarded to be written to a separate file later on. """
+    """ 
+    Extract lines that include two strings separated by a tab character.
+    Other entries are labelled as discarded to be written to a separate 
+    file later on. 
+    """
 
     extracted_lines = []  # List of lists
     discarded_lines = []  # List of lists
 
     for line in stripped_lines:
-
         split_elems = line.split('\t')
-
         if len(split_elems) == 2:
             extracted_lines.append(split_elems)
         else:
@@ -44,7 +53,9 @@ def extract_lines(stripped_lines):
 
 
 def remove_duplicates(extracted_lines):
-    """ Discard all duplicates and only retain unique lines. """
+    """ 
+    Discard all duplicates and only retain unique lines. 
+    """
 
     unique_lines = []  # List of lists
 
@@ -56,15 +67,21 @@ def remove_duplicates(extracted_lines):
 
 
 def sort_lines(unique_lines):
-    """ Sort the unique_lines (list of lists) according to the source text """
+    """ 
+    Sort the unique_lines (list of lists) according to the source text. 
+    """
+    
     sorted_lines = sorted(unique_lines, key=lambda x: x[0])
+    
     return sorted_lines
 
 
 def combine_lines(sorted_lines):
-    """ Combine similar entries (entries containing same source text and
-        different target texts), and output as a dictionary (source text as the
-        key and the different targets as values for that key). """
+    """ 
+    Combine similar entries (entries containing same source text and
+    different target texts), and output as a dictionary (source text as
+    the key and the different targets as values for that key). 
+    """
 
     combined_lines = {}
 
@@ -78,14 +95,15 @@ def combine_lines(sorted_lines):
 
 
 def output_to_file(input_file_path, combined_lines, discarded_lines):
-    """ combined_lines is written to file as the final reorganized glossary,
-        and discarded_lines (lines from the original file not containing 2 or 3
-        elements) is written as another file to be manually checked that nothing
-        useful has been discarded. """
+    """ 
+    combined_lines is written to file as the final reorganized glossary,
+    and discarded_lines (lines from the original file not containing 2
+    elements) is written as another file to be manually checked that 
+    nothing useful has been discarded. 
+    """
 
     # Write combined_lines (dict) to file
 
-    # Build filenames for file to be written
     input_filename = os.path.splitext(input_file_path)[0]
     output_file_path = input_filename + '-reorganized.txt'
 
