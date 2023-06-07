@@ -1,6 +1,4 @@
-<br>
 A small collection of some scripts that I find useful in my day-to-day translation work.
-<br><br>
 
 #### remove_duplicates.py
 - Removes duplicate entries from a glossary.
